@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create your profile - sins.wtf</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/lucide-static@latest/font/lucide.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #ff3333;
+            --primary-dark: #cc0000;
+            --primary-glow: rgba(255, 51, 51, 0.4);
+            --bg-dark: #0a0a0a;
+            --bg-card: #111111;
+            --text: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.6);
+            --border: rgba(255, 51, 51, 0.2);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        .bg-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-gradient {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(255, 51, 51, 0.2) 0%, transparent 40%),
+                radial-gradient(ellipse at 80% 20%, rgba(255, 100, 50, 0.15) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 50%, rgba(139, 0, 0, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(255, 51, 51, 0.15) 0%, transparent 40%);
+            animation: bgMove 30s ease-in-out infinite;
+        }
+
+        @keyframes bgMove {
+            0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            25% { transform: translate(-3%, -3%) rotate(2deg) scale(1.02); }
+            50% { transform: translate(-5%, -5%) rotate(0deg) scale(1); }
+            75% { transform: translate(-2%, -2%) rotate(-2deg) scale(1.02); }
+        }
+
+        .grid-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 51, 51, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 51, 51, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.5;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 51, 51, 0.4) 0%, transparent 70%);
+            top: 10%;
+            left: 10%;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 100, 0, 0.3) 0%, transparent 70%);
+            bottom: 10%;
+            right: 10%;
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -30px) scale(1.1); }
+            50% { transform: translate(-20px, 20px) scale(0.95); }
+            75% { transform: translate(20px, 30px) scale(1.05); }
+        }
+
+        /* Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0;
+            animation: particle-float 8s ease-in-out infinite;
+        }
+
+        @keyframes particle-float {
+            0% { opacity: 0; transform: translateY(100vh) scale(0); }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.3; }
+            100% { opacity: 0; transform: translateY(-20vh) scale(1); }
+        }
+
+        /* Vignette */
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+            z-index: 0;
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(180deg, rgba(10, 10, 10, 0.9) 0%, transparent 100%);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 800;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo svg {
+            color: var(--primary);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .nav-right a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .nav-right a:hover {
+            background: rgba(255, 51, 51, 0.1);
+        }
+
+        /* Main container */
+        .signup-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .signup-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            max-width: 1100px;
+            width: 100%;
+            align-items: center;
+        }
+
+        @media (max-width: 900px) {
+            .signup-wrapper {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .features-side {
+                order: 2;
+            }
+        }
+
+        /* Left side - Signup form */
+        .signup-side {
+            max-width: 420px;
+            margin: 0 auto;
+        }
+
+        .signup-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 51, 51, 0.1);
+            border: 1px solid rgba(255, 51, 51, 0.3);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--primary);
+            margin-bottom: 24px;
+            animation: badge-glow 2s ease-in-out infinite, fade-in-up 0.6s ease-out 0.1s both;
+        }
+
+        @keyframes badge-glow {
+            0%, 100% { box-shadow: 0 0 10px rgba(255, 51, 51, 0.2); }
+            50% { box-shadow: 0 0 20px rgba(255, 51, 51, 0.4); }
+        }
+
+        .signup-title {
+            font-size: 42px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            animation: fade-in-up 0.6s ease-out 0.2s both;
+        }
+
+        .signup-title span {
+            background: linear-gradient(135deg, var(--primary) 0%, #ff6600 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .signup-subtitle {
+            color: var(--text-muted);
+            font-size: 16px;
+            margin-bottom: 32px;
+            animation: fade-in-up 0.6s ease-out 0.3s both;
+        }
+
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Auth card */
+        .auth-card {
+            background: linear-gradient(135deg, rgba(20, 20, 20, 0.9) 0%, rgba(30, 15, 15, 0.8) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 32px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            animation: fade-in-up 0.6s ease-out 0.4s both;
+        }
+
+        .auth-card:hover {
+            border-color: rgba(255, 51, 51, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(255, 51, 51, 0.1);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .auth-header p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* Discord button */
+        .discord-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 16px 24px;
+            background: #5865F2;
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(88, 101, 242, 0.3); }
+            50% { box-shadow: 0 0 35px rgba(88, 101, 242, 0.5); }
+        }
+
+        .discord-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s;
+        }
+
+        .discord-btn:hover {
+            background: #4752c4;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(88, 101, 242, 0.4);
+        }
+
+        .discord-btn:hover::before {
+            transform: translateX(100%);
+        }
+
+        .discord-btn:active {
+            transform: translateY(0);
+        }
+
+        .discord-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .divider span {
+            color: var(--text-muted);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Why Discord section */
+        .why-discord {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .why-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-muted);
+            transition: all 0.2s ease;
+            padding: 8px;
+            border-radius: 8px;
+            margin: -8px;
+        }
+
+        .why-item:hover {
+            background: rgba(52, 211, 153, 0.1);
+            color: var(--text);
+        }
+
+        .why-item i {
+            color: #34d399;
+            font-size: 16px;
+            transition: transform 0.2s ease;
+        }
+
+        .why-item:hover i {
+            transform: scale(1.2);
+        }
+
+        /* Terms */
+        .terms-check {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .terms-check input[type="checkbox"] {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            background: rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .terms-check input[type="checkbox"]:hover {
+            border-color: var(--primary);
+        }
+
+        .terms-check input[type="checkbox"]:checked {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .terms-check input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .terms-check label {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .terms-check a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .terms-check a:hover {
+            text-decoration: underline;
+            text-shadow: 0 0 10px rgba(255, 51, 51, 0.5);
+        }
+
+        /* Sign in link */
+        .signin-link {
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .signin-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .signin-link a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .signin-link a:hover {
+            text-shadow: 0 0 10px rgba(255, 51, 51, 0.5);
+        }
+
+        .signin-link a:hover::after {
+            width: 100%;
+        }
+
+        /* Security badges */
+        .security-badges {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .security-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .security-badge:hover {
+            color: var(--text);
+        }
+
+        .security-badge i {
+            font-size: 14px;
+        }
+
+        /* Right side - Features */
+        .features-side {
+            padding: 20px;
+            animation: fade-in-up 0.6s ease-out 0.3s both;
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 32px;
+            margin-bottom: 24px;
+        }
+
+        .stat-item {
+            text-align: center;
+            cursor: default;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover .stat-number {
+            transform: scale(1.1);
+            text-shadow: 0 0 20px rgba(255, 51, 51, 0.5);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .features-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .features-title span {
+            color: var(--primary);
+        }
+
+        .features-subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        /* Feature cards grid */
+        .feature-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .feature-card {
+            padding: 20px;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: inherit;
+            opacity: 0.15;
+            z-index: 0;
+            transition: opacity 0.3s;
+        }
+
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px) scale(1.02);
+        }
+
+        .feature-card:hover::before {
+            opacity: 0.25;
+        }
+
+        .feature-card:hover::after {
+            opacity: 1;
+        }
+
+        .feature-card:hover i {
+            animation: icon-bounce 0.4s ease;
+        }
+
+        @keyframes icon-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .feature-card i {
+            font-size: 24px;
+            margin-bottom: 12px;
+            display: block;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-card h4 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-card p {
+            font-size: 12px;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Feature card colors */
+        .feature-card.red {
+            background: linear-gradient(135deg, rgba(255, 51, 51, 0.2) 0%, rgba(255, 51, 51, 0.05) 100%);
+            border: 1px solid rgba(255, 51, 51, 0.2);
+        }
+        .feature-card.red i { color: #ff6b6b; }
+        .feature-card.red:hover {
+            box-shadow: 0 10px 40px rgba(255, 51, 51, 0.2);
+            border-color: rgba(255, 51, 51, 0.4);
+        }
+
+        .feature-card.blue {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0.05) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        .feature-card.blue i { color: #60a5fa; }
+        .feature-card.blue:hover {
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+
+        .feature-card.purple {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(139, 92, 246, 0.05) 100%);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+        .feature-card.purple i { color: #a78bfa; }
+        .feature-card.purple:hover {
+            box-shadow: 0 10px 40px rgba(139, 92, 246, 0.2);
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+
+        .feature-card.yellow {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.2) 0%, rgba(251, 191, 36, 0.05) 100%);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+        }
+        .feature-card.yellow i { color: #fbbf24; }
+        .feature-card.yellow:hover {
+            box-shadow: 0 10px 40px rgba(251, 191, 36, 0.2);
+            border-color: rgba(251, 191, 36, 0.4);
+        }
+
+        .feature-card.pink {
+            background: linear-gradient(135deg, rgba(244, 114, 182, 0.2) 0%, rgba(244, 114, 182, 0.05) 100%);
+            border: 1px solid rgba(244, 114, 182, 0.2);
+        }
+        .feature-card.pink i { color: #f472b6; }
+        .feature-card.pink:hover {
+            box-shadow: 0 10px 40px rgba(244, 114, 182, 0.2);
+            border-color: rgba(244, 114, 182, 0.4);
+        }
+
+        .feature-card.green {
+            background: linear-gradient(135deg, rgba(52, 211, 153, 0.2) 0%, rgba(52, 211, 153, 0.05) 100%);
+            border: 1px solid rgba(52, 211, 153, 0.2);
+        }
+        .feature-card.green i { color: #34d399; }
+        .feature-card.green:hover {
+            box-shadow: 0 10px 40px rgba(52, 211, 153, 0.2);
+            border-color: rgba(52, 211, 153, 0.4);
+        }
+
+        /* Bottom banner */
+        .free-banner {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px 24px;
+            background: linear-gradient(135deg, rgba(255, 100, 50, 0.15) 0%, rgba(255, 51, 51, 0.1) 100%);
+            border: 1px solid rgba(255, 100, 50, 0.2);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .free-banner:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255, 100, 50, 0.4);
+            box-shadow: 0 10px 40px rgba(255, 100, 50, 0.15);
+        }
+
+        .free-banner-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #ff6600 0%, var(--primary) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            animation: fire-bounce 1s ease-in-out infinite;
+        }
+
+        @keyframes fire-bounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-3px) scale(1.05); }
+        }
+
+        .free-banner-text h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .free-banner-text p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background effects -->
+    <div class="bg-effects">
+        <div class="bg-gradient"></div>
+        <div class="grid-overlay"></div>
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+    <div class="particles" id="particles"></div>
+    <div class="vignette"></div>
+
+    <!-- Navbar -->
+    <nav>
+        <a href="index2.html" class="logo">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+                <path d="M12 2C8.5 2 6 5 6 8C6 11 8 13 8 16C8 18 6 20 6 20H18C18 20 16 18 16 16C16 13 18 11 18 8C18 5 15.5 2 12 2Z" fill="currentColor"/>
+                <path d="M10 20C10 21.1 10.9 22 12 22C13.1 22 14 21.1 14 20H10Z" fill="currentColor"/>
+            </svg>
+            sins.wtf
+        </a>
+        <div class="nav-right">
+            Already have an account?
+            <a href="#">Sign in</a>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <div class="signup-container">
+        <div class="signup-wrapper">
+            <!-- Left side - Form -->
+            <div class="signup-side">
+                <div class="signup-badge">
+                    🔥 Join 666K+ users
+                </div>
+                <h1 class="signup-title">Create your<br><span>profile</span></h1>
+                <p class="signup-subtitle">Your personalized link-in-bio page. Free forever, no credit card required.</p>
+
+                <div class="auth-card">
+                    <div class="auth-header">
+                        <p>Sign up with your Discord account to continue</p>
+                    </div>
+
+                    <button class="discord-btn">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.17.33.26c.04.03.04.09-.01.11c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.32.61.68 1.19 1.07 1.74c.03.01.06.02.09.01c1.72-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z"/>
+                        </svg>
+                        Continue with Discord
+                    </button>
+
+                    <div class="divider">
+                        <span>Why Discord?</span>
+                    </div>
+
+                    <div class="why-discord">
+                        <div class="why-item">
+                            <i class="icon-shield-check"></i>
+                            Secure login
+                        </div>
+                        <div class="why-item">
+                            <i class="icon-zap"></i>
+                            One-click signup
+                        </div>
+                        <div class="why-item">
+                            <i class="icon-user"></i>
+                            Auto profile pic
+                        </div>
+                        <div class="why-item">
+                            <i class="icon-lock"></i>
+                            No passwords
+                        </div>
+                    </div>
+
+                    <div class="terms-check">
+                        <input type="checkbox" id="terms">
+                        <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+                    </div>
+
+                    <div class="signin-link">
+                        Already have an account? <a href="#">Sign in instead</a>
+                    </div>
+
+                    <div class="security-badges">
+                        <div class="security-badge">
+                            <i class="icon-lock"></i>
+                            SSL Secured
+                        </div>
+                        <div class="security-badge">
+                            <i class="icon-shield"></i>
+                            GDPR Compliant
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right side - Features -->
+            <div class="features-side">
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <div class="stat-number">666K+</div>
+                        <div class="stat-label">Users</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">6.6M+</div>
+                        <div class="stat-label">Profile Views</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">420K+</div>
+                        <div class="stat-label">Links Created</div>
+                    </div>
+                </div>
+
+                <h2 class="features-title">Everything you need. <span>Free.</span></h2>
+                <p class="features-subtitle">Other platforms charge $7-15/month for these features. We don't.</p>
+
+                <div class="feature-cards">
+                    <div class="feature-card red">
+                        <i class="icon-link"></i>
+                        <h4>Custom Profile URL</h4>
+                        <p>sins.wtf/yourname</p>
+                    </div>
+                    <div class="feature-card blue">
+                        <i class="icon-layout-grid"></i>
+                        <h4>Unlimited Links</h4>
+                        <p>Add as many as you want</p>
+                    </div>
+                    <div class="feature-card purple">
+                        <i class="icon-palette"></i>
+                        <h4>Custom Themes</h4>
+                        <p>Colors, fonts, and effects</p>
+                    </div>
+                    <div class="feature-card yellow">
+                        <i class="icon-bar-chart-2"></i>
+                        <h4>Analytics</h4>
+                        <p>Track your profile views</p>
+                    </div>
+                    <div class="feature-card pink">
+                        <i class="icon-sparkles"></i>
+                        <h4>Special Effects</h4>
+                        <p>Particles, cursors, animations</p>
+                    </div>
+                    <div class="feature-card green">
+                        <i class="icon-dollar-sign"></i>
+                        <h4>100% Free</h4>
+                        <p>No premium tiers ever</p>
+                    </div>
+                </div>
+
+                <div class="free-banner">
+                    <div class="free-banner-icon">🔥</div>
+                    <div class="free-banner-text">
+                        <h4>No premium tiers. No paywalls.</h4>
+                        <p>Every feature is free. Forever.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create floating particles
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 20;
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 8 + 's';
+            particle.style.animationDuration = (6 + Math.random() * 4) + 's';
+            particle.style.width = (2 + Math.random() * 4) + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.opacity = 0.3 + Math.random() * 0.4;
+            particlesContainer.appendChild(particle);
+        }
+
+        // Tilt effect on auth card
+        const authCard = document.querySelector('.auth-card');
+        if (authCard) {
+            authCard.addEventListener('mousemove', (e) => {
+                const rect = authCard.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 20;
+                const rotateY = (centerX - x) / 20;
+                authCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+
+            authCard.addEventListener('mouseleave', () => {
+                authCard.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+            });
+        }
+    </script>
+</body>
+</html>
