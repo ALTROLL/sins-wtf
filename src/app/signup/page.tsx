@@ -76,7 +76,7 @@ export default function SignupPage() {
   }, []);
 
   return (
-    <>
+    <div className="signup-page-wrapper">
       {/* Background effects */}
       <div className="signup-bg-effects">
         <div className="signup-bg-gradient"></div>
@@ -238,6 +238,6 @@ export default function SignupPage() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

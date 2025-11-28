@@ -15,6 +15,14 @@
     --border: rgba(255, 51, 51, 0.2);
 }
 
+/* Page wrapper - overrides global styles */
+.signup-page-wrapper {
+    min-height: 100vh;
+    background-color: #0a0a0a;
+    position: relative;
+    overflow-x: hidden;
+}
+
 /* Animated background */
 .signup-bg-effects {
     position: fixed;
@@ -22,8 +30,9 @@
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;
+    z-index: 0;
     overflow: hidden;
+    pointer-events: none;
 }
 
 .signup-bg-gradient {
@@ -141,7 +150,10 @@
     justify-content: space-between;
     align-items: center;
     z-index: 100;
-    background: linear-gradient(180deg, rgba(10, 10, 10, 0.9) 0%, transparent 100%);
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 51, 51, 0.15);
 }
 
 .signup-logo {
@@ -193,7 +205,6 @@
     padding: 100px 20px 40px;
     position: relative;
     z-index: 1;
-    background-color: var(--bg-dark);
 }
 
 .signup-wrapper {
