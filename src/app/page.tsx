@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
+import { TextCursorInput, Search, LayoutGrid, Sparkles, Palette, Type } from "lucide-react";
 
 export default function Home() {
   const particlesRef = useRef<HTMLDivElement>(null);
@@ -257,7 +258,7 @@ export default function Home() {
         <div className="features-grid">
           <div className="feature-card">
             <div className="feature-icon">
-              <i className="icon-text-cursor-input"></i>
+              <TextCursorInput className="w-7 h-7" />
             </div>
             <h3>Typewriter Description</h3>
             <p>
@@ -267,7 +268,7 @@ export default function Home() {
           </div>
           <div className="feature-card">
             <div className="feature-icon purple">
-              <i className="icon-search"></i>
+              <Search className="w-7 h-7" />
             </div>
             <h3>Metadata & SEO</h3>
             <p>
@@ -277,7 +278,7 @@ export default function Home() {
           </div>
           <div className="feature-card">
             <div className="feature-icon blue">
-              <i className="icon-layout-grid"></i>
+              <LayoutGrid className="w-7 h-7" />
             </div>
             <h3>Profile Widgets</h3>
             <p>
@@ -287,7 +288,7 @@ export default function Home() {
           </div>
           <div className="feature-card">
             <div className="feature-icon yellow">
-              <i className="icon-sparkles"></i>
+              <Sparkles className="w-7 h-7" />
             </div>
             <h3>Cursor Effects</h3>
             <p>
@@ -297,7 +298,7 @@ export default function Home() {
           </div>
           <div className="feature-card">
             <div className="feature-icon pink">
-              <i className="icon-palette"></i>
+              <Palette className="w-7 h-7" />
             </div>
             <h3>Layout Customization</h3>
             <p>
@@ -307,7 +308,7 @@ export default function Home() {
           </div>
           <div className="feature-card">
             <div className="feature-icon green">
-              <i className="icon-type"></i>
+              <Type className="w-7 h-7" />
             </div>
             <h3>Custom Fonts</h3>
             <p>
