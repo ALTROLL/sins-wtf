@@ -34,6 +34,7 @@ interface ProfileData {
     avatar_glow?: boolean;
     name_font?: string;
     text_font?: string;
+    name_effect?: string;
     sparkle_name?: boolean;
     click_to_enter?: boolean;
     audio_reactive?: boolean;
@@ -306,8 +307,8 @@ export default function ProfilePage({ data }: { data: ProfileData }) {
           {/* Username */}
           <div className={styles.usernameContainer}>
             <h1
-              className={`${styles.username} ${customization?.sparkle_name ? styles.usernameSparkle : ""}`}
-              style={{ fontFamily: customization?.name_font }}
+              className={`${styles.username} ${customization?.sparkle_name ? styles.usernameSparkle : ""} ${customization?.name_effect && customization.name_effect !== "none" ? styles[`nameEffect_${customization.name_effect}`] : ""}`}
+              style={{ fontFamily: customization?.name_font, color: customization?.name_color }}
             >
               {profile.display_name || profile.username}
             </h1>

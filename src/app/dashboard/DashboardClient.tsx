@@ -18,11 +18,15 @@ import styles from "./dashboard.module.css";
 
 interface Profile {
   id: string;
+  user_id: number;
   username: string;
   display_name: string | null;
   bio: string | null;
   avatar_url: string | null;
   banner_url: string | null;
+  email: string | null;
+  discord_id: string | null;
+  discord_username: string | null;
   views: number;
   links: Array<{
     id: string;
@@ -54,6 +58,7 @@ interface Profile {
     avatar_glow: boolean;
     name_font: string | null;
     text_font: string | null;
+    name_effect: string;
     click_to_enter: boolean;
     sparkle_name: boolean;
     parallax_enabled: boolean;
@@ -108,6 +113,7 @@ export default function DashboardClient({ profile: initialProfile, user }: Dashb
   const [avatarStyle, setAvatarStyle] = useState(customization?.avatar_style || "circle");
   const [avatarBorder, setAvatarBorder] = useState(customization?.avatar_border || false);
   const [avatarGlow, setAvatarGlow] = useState(customization?.avatar_glow || false);
+  const [nameEffect, setNameEffect] = useState(customization?.name_effect || "none");
   const [clickToEnter, setClickToEnter] = useState(customization?.click_to_enter || false);
   const [sparkleName, setSparkleName] = useState(customization?.sparkle_name || false);
   const [parallaxEnabled, setParallaxEnabled] = useState(customization?.parallax_enabled || false);
@@ -174,6 +180,7 @@ export default function DashboardClient({ profile: initialProfile, user }: Dashb
         avatar_style: avatarStyle,
         avatar_border: avatarBorder,
         avatar_glow: avatarGlow,
+        name_effect: nameEffect,
         click_to_enter: clickToEnter,
         sparkle_name: sparkleName,
         parallax_enabled: parallaxEnabled,
@@ -353,6 +360,8 @@ export default function DashboardClient({ profile: initialProfile, user }: Dashb
                 setCardStyle={setCardStyle}
                 layoutStyle={layoutStyle}
                 setLayoutStyle={setLayoutStyle}
+                nameEffect={nameEffect}
+                setNameEffect={setNameEffect}
                 clickToEnter={clickToEnter}
                 setClickToEnter={setClickToEnter}
                 sparkleName={sparkleName}
@@ -546,6 +555,7 @@ function CustomizeTab({
   bgType, setBgType, bgColor, setBgColor, bgVideoUrl, setBgVideoUrl,
   primaryColor, setPrimaryColor, nameColor, setNameColor, textColor, setTextColor,
   cardStyle, setCardStyle, layoutStyle, setLayoutStyle,
+  nameEffect, setNameEffect,
   clickToEnter, setClickToEnter, sparkleName, setSparkleName, parallaxEnabled, setParallaxEnabled,
   typewriterEnabled, setTypewriterEnabled, typewriterPhrases, setTypewriterPhrases,
   discordUserId, setDiscordUserId, discordWidgetEnabled, setDiscordWidgetEnabled,
@@ -557,6 +567,7 @@ function CustomizeTab({
   bgType: string; setBgType: (v: "color" | "media") => void; bgColor: string; setBgColor: (v: string) => void; bgVideoUrl: string; setBgVideoUrl: (v: string) => void;
   primaryColor: string; setPrimaryColor: (v: string) => void; nameColor: string; setNameColor: (v: string) => void; textColor: string; setTextColor: (v: string) => void;
   cardStyle: string; setCardStyle: (v: string) => void; layoutStyle: string; setLayoutStyle: (v: string) => void;
+  nameEffect: string; setNameEffect: (v: string) => void;
   clickToEnter: boolean; setClickToEnter: (v: boolean) => void; sparkleName: boolean; setSparkleName: (v: boolean) => void; parallaxEnabled: boolean; setParallaxEnabled: (v: boolean) => void;
   typewriterEnabled: boolean; setTypewriterEnabled: (v: boolean) => void; typewriterPhrases: string[]; setTypewriterPhrases: (v: string[]) => void;
   discordUserId: string; setDiscordUserId: (v: string) => void; discordWidgetEnabled: boolean; setDiscordWidgetEnabled: (v: boolean) => void;
@@ -566,6 +577,18 @@ function CustomizeTab({
   const avatarStyles = ["circle", "square", "rounded", "hexagon"] as const;
   const cardStyles = ["classic", "frosted_square", "frosted_soft", "outlined", "aurora", "transparent"] as const;
   const layoutStyles = ["stacked", "floating", "compact"] as const;
+  const nameEffects = [
+    { id: "none", label: "None" },
+    { id: "glow", label: "Glow" },
+    { id: "rainbow", label: "Rainbow" },
+    { id: "gradient", label: "Gradient Wave" },
+    { id: "neon", label: "Neon Pulse" },
+    { id: "glitch", label: "Glitch" },
+    { id: "typewriter", label: "Typewriter" },
+    { id: "bounce", label: "Bounce" },
+    { id: "shake", label: "Shake" },
+    { id: "wave", label: "Wave" },
+  ] as const;
 
   return (
     <motion.div initial="hidden" animate="visible" exit="hidden" variants={staggerContainer}>
@@ -657,9 +680,27 @@ function CustomizeTab({
         )}
       </motion.div>
 
-      {/* Effects */}
+      {/* Username Effects */}
       <motion.div className={styles.formSection} variants={fadeIn}>
-        <div className={styles.formSectionTitle}>Effects</div>
+        <div className={styles.formSectionTitle}>Username Effect</div>
+        <p className={styles.formHint} style={{ marginBottom: 12 }}>Add animated effects to your display name</p>
+        <div className={styles.effectsSelectGrid}>
+          {nameEffects.map((effect) => (
+            <button 
+              key={effect.id} 
+              className={`${styles.effectBtn} ${nameEffect === effect.id ? styles.effectBtnActive : ""}`} 
+              onClick={() => setNameEffect(effect.id)}
+            >
+              <span className={`${styles.effectPreview} ${styles[`effect_${effect.id}`]}`}>{displayName || "Name"}</span>
+              <span className={styles.effectLabel}>{effect.label}</span>
+            </button>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Page Effects */}
+      <motion.div className={styles.formSection} variants={fadeIn}>
+        <div className={styles.formSectionTitle}>Page Effects</div>
         <div className={styles.effectsGrid}>
           <label className={styles.toggleLabel}><input type="checkbox" checked={clickToEnter} onChange={(e) => setClickToEnter(e.target.checked)} />Click to Enter</label>
           <label className={styles.toggleLabel}><input type="checkbox" checked={sparkleName} onChange={(e) => setSparkleName(e.target.checked)} />Sparkle Name</label>
@@ -778,8 +819,14 @@ function ProfileTab({ profile }: { profile: Profile }) {
       </motion.div>
       <motion.div className={styles.formSection} variants={fadeIn}>
         <div className={styles.formSectionTitle}>Account Information</div>
+        <div className={styles.formGroup}><label className={styles.formLabel}>User ID</label><input type="text" className={styles.formInput} value={profile.user_id || "N/A"} readOnly /></div>
         <div className={styles.formGroup}><label className={styles.formLabel}>Username</label><input type="text" className={styles.formInput} value={profile.username} readOnly /></div>
-        <div className={styles.formGroup}><label className={styles.formLabel}>Email</label><input type="email" className={styles.formInput} value="user@example.com" readOnly /></div>
+        <div className={styles.formGroup}><label className={styles.formLabel}>Email</label><input type="email" className={styles.formInput} value={profile.email || "Not provided"} readOnly /></div>
+      </motion.div>
+      <motion.div className={styles.formSection} variants={fadeIn}>
+        <div className={styles.formSectionTitle}>Discord Connection</div>
+        <div className={styles.formGroup}><label className={styles.formLabel}>Discord Username</label><input type="text" className={styles.formInput} value={profile.discord_username || "Not connected"} readOnly /></div>
+        <div className={styles.formGroup}><label className={styles.formLabel}>Discord ID</label><input type="text" className={styles.formInput} value={profile.discord_id || "Not connected"} readOnly /></div>
       </motion.div>
     </motion.div>
   );

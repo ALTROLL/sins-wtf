@@ -12,33 +12,45 @@ export interface Database {
       profiles: {
         Row: {
           id: string
+          user_id: number
           username: string
           display_name: string | null
           bio: string | null
           avatar_url: string | null
           banner_url: string | null
+          email: string | null
+          discord_id: string | null
+          discord_username: string | null
           views: number
           created_at: string
           updated_at: string
         }
         Insert: {
           id: string
+          user_id?: number
           username: string
           display_name?: string | null
           bio?: string | null
           avatar_url?: string | null
           banner_url?: string | null
+          email?: string | null
+          discord_id?: string | null
+          discord_username?: string | null
           views?: number
           created_at?: string
           updated_at?: string
         }
         Update: {
           id?: string
+          user_id?: number
           username?: string
           display_name?: string | null
           bio?: string | null
           avatar_url?: string | null
           banner_url?: string | null
+          email?: string | null
+          discord_id?: string | null
+          discord_username?: string | null
           views?: number
           created_at?: string
           updated_at?: string
@@ -66,6 +78,7 @@ export interface Database {
           avatar_glow: boolean
           name_font: string | null
           text_font: string | null
+          name_effect: string
           cursor_effect: string
           custom_cursor_url: string | null
           page_effect: string
@@ -113,6 +126,7 @@ export interface Database {
           avatar_glow?: boolean
           name_font?: string | null
           text_font?: string | null
+          name_effect?: string
           cursor_effect?: string
           custom_cursor_url?: string | null
           page_effect?: string
@@ -160,6 +174,7 @@ export interface Database {
           avatar_glow?: boolean
           name_font?: string | null
           text_font?: string | null
+          name_effect?: string
           cursor_effect?: string
           custom_cursor_url?: string | null
           page_effect?: string

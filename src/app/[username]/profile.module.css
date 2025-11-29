@@ -607,3 +607,112 @@
   background-size: cover;
   background-position: center;
 }
+
+/* Username Name Effects */
+.nameEffect_glow {
+  text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { text-shadow: 0 0 10px currentColor, 0 0 20px currentColor; }
+  50% { text-shadow: 0 0 20px currentColor, 0 0 40px currentColor, 0 0 60px currentColor; }
+}
+
+.nameEffect_rainbow {
+  background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8f00ff, #ff0000);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbowMove 3s linear infinite;
+}
+
+@keyframes rainbowMove {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+.nameEffect_gradient {
+  background: linear-gradient(90deg, #8b5cf6, #06b6d4, #8b5cf6);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientWave 2s ease-in-out infinite;
+}
+
+@keyframes gradientWave {
+  0%, 100% { background-position: 0% center; }
+  50% { background-position: 100% center; }
+}
+
+.nameEffect_neon {
+  color: #0ff;
+  text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #0ff;
+  animation: neonFlicker 1.5s ease-in-out infinite;
+}
+
+@keyframes neonFlicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #0ff;
+  }
+  20%, 24%, 55% {
+    text-shadow: none;
+  }
+}
+
+.nameEffect_glitch {
+  position: relative;
+  animation: glitchSkew 1s infinite linear alternate-reverse;
+}
+
+@keyframes glitchSkew {
+  0% { transform: skew(0deg); }
+  20% { transform: skew(-2deg); }
+  40% { transform: skew(2deg); }
+  60% { transform: skew(-1deg); }
+  80% { transform: skew(1deg); }
+  100% { transform: skew(0deg); }
+}
+
+.nameEffect_typewriter {
+  overflow: hidden;
+  border-right: 3px solid currentColor;
+  animation: typewriterBlink 0.7s step-end infinite;
+}
+
+@keyframes typewriterBlink {
+  0%, 100% { border-color: transparent; }
+  50% { border-color: currentColor; }
+}
+
+.nameEffect_bounce {
+  animation: bounceEffect 0.6s ease infinite;
+}
+
+@keyframes bounceEffect {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.nameEffect_shake {
+  animation: shakeEffect 0.5s ease-in-out infinite;
+}
+
+@keyframes shakeEffect {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+.nameEffect_wave {
+  display: inline-block;
+  animation: waveEffect 2s ease-in-out infinite;
+}
+
+@keyframes waveEffect {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-2deg) scale(1.02); }
+  75% { transform: rotate(2deg) scale(1.02); }
+}
