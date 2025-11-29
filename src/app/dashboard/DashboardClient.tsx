@@ -11,7 +11,7 @@ import {
   Settings2, Plus, Trash2, GripVertical, Eye, TrendingUp, Check,
   ChevronDown, Hash, X, Upload, Briefcase, MapPin, Bold, Italic,
   Underline, Strikethrough, AlignLeft, AlignCenter, AlignRight,
-  Code, Minus, RotateCcw, RotateCw, LogOut,
+  Code, Minus, RotateCcw, RotateCw, LogOut, Save,
 } from "lucide-react";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 import styles from "./dashboard.module.css";
@@ -148,6 +148,53 @@ export default function DashboardClient({ profile: initialProfile, user }: Dashb
   const handleDeleteLink = async (linkId: string) => {
     await supabase.from("links").delete().eq("id", linkId);
     setProfile({ ...profile, links: profile.links.filter((l) => l.id !== linkId) });
+  };
+
+  const handleSaveCustomization = async () => {
+    setSaving(true);
+    try {
+      // Update profile
+      await supabase.from("profiles").update({
+        display_name: displayName || null,
+        bio: bio || null,
+      }).eq("id", user.id);
+
+      // Update or insert customization
+      const customizationData = {
+        profile_id: user.id,
+        primary_color: primaryColor,
+        name_color: nameColor,
+        text_color: textColor,
+        background_type: bgType === "media" ? (bgVideoUrl ? "video" : "image") : "color",
+        background_color: bgColor,
+        background_video_url: bgVideoUrl || null,
+        background_image_url: bgImageUrl || null,
+        card_style: cardStyle,
+        layout_style: layoutStyle,
+        avatar_style: avatarStyle,
+        avatar_border: avatarBorder,
+        avatar_glow: avatarGlow,
+        click_to_enter: clickToEnter,
+        sparkle_name: sparkleName,
+        parallax_enabled: parallaxEnabled,
+        typewriter_enabled: typewriterEnabled,
+        typewriter_phrases: typewriterPhrases.length > 0 ? typewriterPhrases : null,
+        discord_user_id: discordUserId || null,
+        discord_widget_enabled: discordWidgetEnabled,
+      };
+
+      const { error } = await supabase
+        .from("profile_customization")
+        .upsert(customizationData, { onConflict: "profile_id" });
+
+      if (error) throw error;
+      
+      router.refresh();
+    } catch (error) {
+      console.error("Failed to save:", error);
+    } finally {
+      setSaving(false);
+    }
   };
 
   const navItems = [
@@ -324,6 +371,8 @@ export default function DashboardClient({ profile: initialProfile, user }: Dashb
                 setOccupation={setOccupation}
                 location={location}
                 setLocation={setLocation}
+                saving={saving}
+                onSave={handleSaveCustomization}
               />
             )}
             {activeTab === "links" && (
@@ -500,7 +549,8 @@ function CustomizeTab({
   clickToEnter, setClickToEnter, sparkleName, setSparkleName, parallaxEnabled, setParallaxEnabled,
   typewriterEnabled, setTypewriterEnabled, typewriterPhrases, setTypewriterPhrases,
   discordUserId, setDiscordUserId, discordWidgetEnabled, setDiscordWidgetEnabled,
-  occupation, setOccupation, location, setLocation 
+  occupation, setOccupation, location, setLocation,
+  saving, onSave
 }: { 
   profile: Profile; displayName: string; setDisplayName: (v: string) => void; bio: string; setBio: (v: string) => void;
   avatarStyle: string; setAvatarStyle: (v: string) => void; avatarBorder: boolean; setAvatarBorder: (v: boolean) => void; avatarGlow: boolean; setAvatarGlow: (v: boolean) => void;
@@ -510,7 +560,8 @@ function CustomizeTab({
   clickToEnter: boolean; setClickToEnter: (v: boolean) => void; sparkleName: boolean; setSparkleName: (v: boolean) => void; parallaxEnabled: boolean; setParallaxEnabled: (v: boolean) => void;
   typewriterEnabled: boolean; setTypewriterEnabled: (v: boolean) => void; typewriterPhrases: string[]; setTypewriterPhrases: (v: string[]) => void;
   discordUserId: string; setDiscordUserId: (v: string) => void; discordWidgetEnabled: boolean; setDiscordWidgetEnabled: (v: boolean) => void;
-  occupation: string; setOccupation: (v: string) => void; location: string; setLocation: (v: string) => void; 
+  occupation: string; setOccupation: (v: string) => void; location: string; setLocation: (v: string) => void;
+  saving: boolean; onSave: () => void;
 }) {
   const avatarStyles = ["circle", "square", "rounded", "hexagon"] as const;
   const cardStyles = ["classic", "frosted_square", "frosted_soft", "outlined", "aurora", "transparent"] as const;
@@ -523,6 +574,15 @@ function CustomizeTab({
           <h1 className={styles.pageTitle}>Customize Profile</h1>
           <p className={styles.pageSubtitle}>Personalize how your profile looks to visitors.</p>
         </div>
+        <motion.button 
+          className={`${styles.headerBtn} ${styles.headerBtnPrimary}`} 
+          onClick={onSave} 
+          disabled={saving}
+          whileHover={{ scale: 1.02 }} 
+          whileTap={{ scale: 0.98 }}
+        >
+          {saving ? "Saving..." : <><Check size={16} /> Save Changes</>}
+        </motion.button>
       </motion.div>
 
       {/* Colors Section */}
