@@ -494,3 +494,4 @@ Standard icon sizes:
 - Keep bundle size in mind - lazy load heavy components
 - Test on dark backgrounds - everything should be visible
 - Ensure sufficient contrast for accessibility
+- Ensure mobile friendliness before desktop
