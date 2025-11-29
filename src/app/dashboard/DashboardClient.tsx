@@ -48,7 +48,7 @@ interface DashboardClientProps {
   user: SupabaseUser;
 }
 
-const SIDEBAR_WIDTH = 260;
+const SIDEBAR_WIDTH = 280;
 
 type TabType = "dashboard" | "customize" | "links" | "analytics" | "profile" | "settings";
 
@@ -142,16 +142,17 @@ export default function DashboardClient({ profile: initialProfile, user }: Dashb
       <aside
         className={styles.sidebar}
         style={{
-          position: "fixed",
+          position: "sticky",
           top: 0,
-          left: 0,
+          alignSelf: "flex-start",
           height: "100vh",
           width: SIDEBAR_WIDTH,
           minWidth: SIDEBAR_WIDTH,
           maxWidth: SIDEBAR_WIDTH,
           display: "flex",
           flexDirection: "column",
-          zIndex: 100,
+          flexShrink: 0,
+          zIndex: 1,
         }}
       >
         <Link href="/" className={styles.logo}>
@@ -232,11 +233,9 @@ export default function DashboardClient({ profile: initialProfile, user }: Dashb
         </div>
       </aside>
 
-      <div aria-hidden style={{ width: SIDEBAR_WIDTH, flexShrink: 0 }} />
-
       <main
         className={styles.main}
-        style={{ flex: 1, display: "flex", position: "relative", zIndex: 1 }}
+        style={{ flex: 1, display: "flex", position: "relative" }}
       >
         <div className={styles.content}>
           <AnimatePresence mode="wait">
