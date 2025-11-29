@@ -11,7 +11,7 @@ import {
   Settings2, Plus, Trash2, GripVertical, Eye, TrendingUp, Check,
   ChevronDown, Hash, X, Upload, Briefcase, MapPin, Bold, Italic,
   Underline, Strikethrough, AlignLeft, AlignCenter, AlignRight,
-  Code, Minus, RotateCcw, RotateCw,
+  Code, Minus, RotateCcw, RotateCw, LogOut,
 } from "lucide-react";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 import styles from "./dashboard.module.css";
