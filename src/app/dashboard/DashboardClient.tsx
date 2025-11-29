@@ -232,9 +232,11 @@ export default function DashboardClient({ profile: initialProfile, user }: Dashb
         </div>
       </aside>
 
+      <div aria-hidden style={{ width: SIDEBAR_WIDTH, flexShrink: 0 }} />
+
       <main
         className={styles.main}
-        style={{ marginLeft: SIDEBAR_WIDTH, flex: 1, display: "flex", position: "relative", zIndex: 1 }}
+        style={{ flex: 1, display: "flex", position: "relative", zIndex: 1 }}
       >
         <div className={styles.content}>
           <AnimatePresence mode="wait">
