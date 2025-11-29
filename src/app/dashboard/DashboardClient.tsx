@@ -135,80 +135,96 @@ export default function DashboardClient({ profile: initialProfile, user }: Dashb
       </div>
 
       <aside className={styles.sidebar}>
-        <Link href="/" className={styles.logo}>
-          <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
-            <path d="M12 2C8.5 2 6 5 6 8C6 11 8 13 8 16C8 18 6 20 6 20H18C18 20 16 18 16 16C16 13 18 11 18 8C18 5 15.5 2 12 2Z" />
-            <path d="M10 20C10 21.1 10.9 22 12 22C13.1 22 14 21.1 14 20H10Z" />
-          </svg>
-          sins.wtf
-        </Link>
+        <div className={styles.sidebarHeader}>
+          <div className={styles.brandIcon}>
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+              <path d="M12 2C8.5 2 6 5 6 8C6 11 8 13 8 16C8 18 6 20 6 20H18C18 20 16 18 16 16C16 13 18 11 18 8C18 5 15.5 2 12 2Z" />
+              <path d="M10 20C10 21.1 10.9 22 12 22C13.1 22 14 21.1 14 20H10Z" />
+            </svg>
+          </div>
+          <div>
+            <div className={styles.brandTitle}>sins.wtf</div>
+            <p className={styles.brandSubtitle}>Creator dashboard</p>
+          </div>
+        </div>
 
-        <nav className={styles.nav}>
-          <div className={styles.navSection}>Main</div>
-          {navItems.map((item) => (
-            <motion.button
-              key={item.id}
-              className={`${styles.navItem} ${activeTab === item.id ? styles.navItemActive : ""}`}
-              onClick={() => setActiveTab(item.id as TabType)}
-              whileHover={{ x: 4 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <item.icon className={styles.navIcon} />
-              {item.label}
-              {item.badge !== undefined && item.badge > 0 && (
-                <span className={styles.badge}>{item.badge}</span>
-              )}
-            </motion.button>
-          ))}
-
-          <div className={styles.navSection}>Account</div>
-          {accountItems.map((item) => (
-            <motion.button
-              key={item.id}
-              className={`${styles.navItem} ${activeTab === item.id ? styles.navItemActive : ""}`}
-              onClick={() => setActiveTab(item.id as TabType)}
-              whileHover={{ x: 4 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <item.icon className={styles.navIcon} />
-              {item.label}
-            </motion.button>
-          ))}
-        </nav>
-
-        <div className={styles.sidebarFooter}>
-          <div className={styles.helpBox}>
-            <p>Need help getting started?</p>
-            <button className={`${styles.btn} ${styles.btnPurple}`}>
-              <HelpCircle size={16} />
-              Help Center
-            </button>
+        <div className={styles.sidebarNav}>
+          <div>
+            <div className={styles.sidebarSectionLabel}>Main</div>
+            <div className={styles.navGroup}>
+              {navItems.map((item) => (
+                <motion.button
+                  key={item.id}
+                  className={`${styles.navButton} ${activeTab === item.id ? styles.navButtonActive : ""}`}
+                  onClick={() => setActiveTab(item.id as TabType)}
+                  whileHover={{ x: 4 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <item.icon className={styles.navIcon} />
+                  <span>{item.label}</span>
+                  {item.badge !== undefined && item.badge > 0 && (
+                    <span className={styles.navBadge}>{item.badge}</span>
+                  )}
+                </motion.button>
+              ))}
+            </div>
           </div>
 
-          <div className={styles.quickBtns}>
-            <a href={`/${profile.username}`} target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.btnOutline}`}>
+          <div>
+            <div className={styles.sidebarSectionLabel}>Account</div>
+            <div className={styles.navGroup}>
+              {accountItems.map((item) => (
+                <motion.button
+                  key={item.id}
+                  className={`${styles.navButton} ${activeTab === item.id ? styles.navButtonActive : ""}`}
+                  onClick={() => setActiveTab(item.id as TabType)}
+                  whileHover={{ x: 4 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <item.icon className={styles.navIcon} />
+                  <span>{item.label}</span>
+                </motion.button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.sidebarFooter}>
+          <div className={styles.sidebarActions}>
+            <a href={`/${profile.username}`} target="_blank" rel="noopener noreferrer" className={styles.outlineButton}>
               <ExternalLink size={14} />
               View
             </a>
-            <button className={`${styles.btn} ${styles.btnOutline}`} onClick={() => navigator.clipboard.writeText(`sins.wtf/${profile.username}`)}>
+            <button className={styles.outlineButton} onClick={() => navigator.clipboard.writeText(`https://sins.wtf/${profile.username}`)}>
               <Copy size={14} />
               Copy
             </button>
           </div>
 
-          <motion.button className={`${styles.btn} ${styles.btnPrimary}`} style={{ marginBottom: 16 }} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+          <div className={styles.helpCard}>
+            <p className={styles.helpTitle}>Need help getting started?</p>
+            <button className={styles.ghostButton}>
+              <HelpCircle size={16} />
+              Help Center
+            </button>
+          </div>
+
+          <motion.button className={styles.primaryButton} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
             <Share2 size={16} />
             Share Profile
           </motion.button>
 
-          <div className={styles.userProfile} onClick={handleSignOut}>
-            <div className={styles.userAvatar}>
+          <div className={styles.sidebarUser}>
+            <div className={styles.sidebarUserAvatar}>
               {profile.avatar_url ? <img src={profile.avatar_url} alt={profile.username} /> : profile.username.charAt(0).toUpperCase()}
             </div>
-            <div className={styles.userInfo}>
-              <div className={styles.userName}>{profile.display_name || profile.username}</div>
-              <div className={styles.userId}>UID {user.id.slice(0, 6)}</div>
+            <div className={styles.sidebarUserInfo}>
+              <span className={styles.sidebarUserName}>{profile.display_name || profile.username}</span>
+              <span className={styles.sidebarUserMeta}>UID {user.id.slice(0, 6)}</span>
             </div>
+            <button onClick={handleSignOut} className={styles.sidebarSignOut}>
+              <LogOut size={14} />
+            </button>
           </div>
         </div>
       </aside>

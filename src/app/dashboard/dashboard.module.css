@@ -27,52 +27,241 @@
   position: relative;
 }
 
-/* Background Effects */
-.bgEffects {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.bgGlow {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(120px);
-}
-
-.bgGlow1 {
-  width: 600px;
-  height: 600px;
-  background: var(--primary);
-  top: -200px;
-  right: -100px;
-  opacity: 0.12;
-}
-
-.bgGlow2 {
-  width: 500px;
-  height: 500px;
-  background: var(--purple);
-  bottom: -150px;
-  left: 100px;
-  opacity: 0.08;
-}
-
-/* Sidebar */
 .sidebar {
-  width: 260px;
-  min-width: 260px;
-  background: var(--bg-sidebar);
+  width: 280px;
+  min-width: 280px;
+  height: 100vh;
+  background: linear-gradient(180deg, rgba(15, 15, 15, 0.96), rgba(5, 5, 5, 0.98));
   border-right: 1px solid var(--border);
   position: sticky;
   top: 0;
   align-self: flex-start;
-  height: 100vh;
   display: flex;
   flex-direction: column;
-  z-index: 2;
+  padding: 24px 20px;
+  gap: 24px;
+  z-index: 5;
+  overflow-y: auto;
+}
+
+.sidebarHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brandIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #ff3333, #ff884d);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(255, 51, 51, 0.25);
+}
+
+.brandTitle {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.brandSubtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.sidebarNav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sidebarSectionLabel {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.navGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.navButton {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.navButton:hover {
+  border-color: var(--border);
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.navButtonActive {
+  color: var(--text);
+  background: rgba(255, 51, 51, 0.12);
+  border-color: rgba(255, 51, 51, 0.3);
+  box-shadow: 0 8px 25px rgba(255, 51, 51, 0.18);
+}
+
+.navIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.navBadge {
+  margin-left: auto;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(255, 51, 51, 0.2);
+  color: #ffb4a2;
+}
+
+.sidebarFooter {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 16px;
+}
+
+.sidebarActions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.ghostButton,
+.primaryButton,
+.outlineButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ghostButton {
+  border-color: rgba(255, 255, 255, 0.08);
+  color: var(--text-secondary);
+}
+
+.ghostButton:hover,
+.outlineButton:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+}
+
+.outlineButton {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--text);
+}
+
+.primaryButton {
+  background: linear-gradient(135deg, #ff3333, #ff7a18);
+  color: #fff;
+  box-shadow: 0 12px 35px rgba(255, 51, 51, 0.35);
+}
+
+.primaryButton:hover {
+  opacity: 0.95;
+}
+
+.helpCard {
+  border-radius: 16px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+.helpTitle {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.sidebarUser {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.sidebarUserAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.sidebarUserAvatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
+}
+
+.sidebarUserInfo {
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+}
+
+.sidebarUserName {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.sidebarUserMeta {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.sidebarSignOut {
+  margin-left: auto;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 6px 10px;
+  color: var(--text);
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.sidebarSignOut:hover {
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .logo {
