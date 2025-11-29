@@ -160,12 +160,16 @@ export default function DashboardClient({ profile: initialProfile, user }: Dashb
     setSaving(true);
     try {
       // Update profile
-      await supabase.from("profiles").update({
+      const { error: profileError } = await supabase.from("profiles").update({
         display_name: displayName || null,
         bio: bio || null,
       }).eq("id", user.id);
 
-      // Update or insert customization
+      if (profileError) {
+        console.error("Profile update error:", profileError);
+      }
+
+      // Customization data
       const customizationData = {
         profile_id: user.id,
         primary_color: primaryColor,
@@ -190,15 +194,40 @@ export default function DashboardClient({ profile: initialProfile, user }: Dashb
         discord_widget_enabled: discordWidgetEnabled,
       };
 
-      const { error } = await supabase
+      // Check if customization exists
+      const { data: existing } = await supabase
         .from("profile_customization")
-        .upsert(customizationData, { onConflict: "profile_id" });
+        .select("id")
+        .eq("profile_id", user.id)
+        .single();
 
-      if (error) throw error;
+      let error;
+      if (existing) {
+        // Update existing
+        const result = await supabase
+          .from("profile_customization")
+          .update(customizationData)
+          .eq("profile_id", user.id);
+        error = result.error;
+      } else {
+        // Insert new
+        const result = await supabase
+          .from("profile_customization")
+          .insert(customizationData);
+        error = result.error;
+      }
+
+      if (error) {
+        console.error("Customization save error:", error);
+        alert("Failed to save: " + error.message);
+      } else {
+        alert("Changes saved successfully!");
+      }
       
       router.refresh();
     } catch (error) {
       console.error("Failed to save:", error);
+      alert("Failed to save changes");
     } finally {
       setSaving(false);
     }
