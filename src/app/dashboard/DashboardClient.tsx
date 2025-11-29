@@ -213,8 +213,7 @@ export default function DashboardClient({ profile: initialProfile, user }: Dashb
         </div>
       </aside>
 
-      <main
-        <main className={styles.main}>
+      <main className={styles.main}>
         <div className={styles.content}>
           <AnimatePresence mode="wait">
             {activeTab === "dashboard" && <DashboardTab key="dashboard" profile={profile} />}
