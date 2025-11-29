@@ -48,8 +48,6 @@ interface DashboardClientProps {
   user: SupabaseUser;
 }
 
-const SIDEBAR_WIDTH = 280;
-
 type TabType = "dashboard" | "customize" | "links" | "analytics" | "profile" | "settings";
 
 const fadeIn = {
@@ -122,10 +120,7 @@ export default function DashboardClient({ profile: initialProfile, user }: Dashb
   ];
 
   return (
-    <div
-      className={styles.wrapper}
-      style={{ display: "flex", flexDirection: "row", minHeight: "100vh", width: "100%" }}
-    >
+    <div className={styles.wrapper}>
       <div className={styles.bgEffects}>
         <motion.div
           className={`${styles.bgGlow} ${styles.bgGlow1}`}
@@ -139,22 +134,7 @@ export default function DashboardClient({ profile: initialProfile, user }: Dashb
         />
       </div>
 
-      <aside
-        className={styles.sidebar}
-        style={{
-          position: "sticky",
-          top: 0,
-          alignSelf: "flex-start",
-          height: "100vh",
-          width: SIDEBAR_WIDTH,
-          minWidth: SIDEBAR_WIDTH,
-          maxWidth: SIDEBAR_WIDTH,
-          display: "flex",
-          flexDirection: "column",
-          flexShrink: 0,
-          zIndex: 1,
-        }}
-      >
+      <aside className={styles.sidebar}>
         <Link href="/" className={styles.logo}>
           <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
             <path d="M12 2C8.5 2 6 5 6 8C6 11 8 13 8 16C8 18 6 20 6 20H18C18 20 16 18 16 16C16 13 18 11 18 8C18 5 15.5 2 12 2Z" />
@@ -234,9 +214,7 @@ export default function DashboardClient({ profile: initialProfile, user }: Dashb
       </aside>
 
       <main
-        className={styles.main}
-        style={{ flex: 1, display: "flex", position: "relative" }}
-      >
+        <main className={styles.main}>
         <div className={styles.content}>
           <AnimatePresence mode="wait">
             {activeTab === "dashboard" && <DashboardTab key="dashboard" profile={profile} />}
