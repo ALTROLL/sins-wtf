@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+﻿import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import DashboardClient from "./DashboardClient";
 
@@ -13,15 +13,14 @@ export default async function DashboardPage() {
     redirect("/login");
   }
 
-  // Fetch profile data
   const { data: profile } = await supabase
     .from("profiles")
-    .select(`
+    .select(
       *,
       profile_customization (*),
       links (*),
       social_links (*)
-    `)
+    )
     .eq("id", user.id)
     .single();
 

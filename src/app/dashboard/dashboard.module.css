@@ -1,4 +1,4 @@
-/* Dashboard Module CSS */
+﻿/* Dashboard Module CSS */
 :root {
   --primary: #ff3333;
   --primary-dark: #cc0000;
@@ -95,6 +95,8 @@
 }
 
 .nav {
+  display: flex !important;
+  flex-direction: column !important;
   flex: 1;
   padding: 20px 14px;
   overflow-y: auto;
@@ -110,6 +112,9 @@
 }
 
 .navItem {
+  display: flex !important;
+  flex-direction: row !important;
+  width: 100% !important;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -1390,3 +1395,4 @@
     grid-template-columns: 1fr;
   }
 }
+
