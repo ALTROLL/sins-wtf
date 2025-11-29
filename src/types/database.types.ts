@@ -52,15 +52,20 @@ export interface Database {
           secondary_color: string
           background_color: string
           text_color: string
+          name_color: string
           background_type: string
           background_image_url: string | null
           background_video_url: string | null
           background_blur: number
           background_opacity: number
-          layout_type: string
+          layout_style: string
+          card_style: string
+          card_radius: number
           avatar_style: string
           avatar_border: boolean
           avatar_glow: boolean
+          name_font: string | null
+          text_font: string | null
           cursor_effect: string
           custom_cursor_url: string | null
           page_effect: string
@@ -71,6 +76,11 @@ export interface Database {
           typewriter_enabled: boolean
           typewriter_speed: number
           typewriter_phrases: string[] | null
+          click_to_enter: boolean
+          sparkle_name: boolean
+          parallax_enabled: boolean
+          discord_user_id: string | null
+          discord_widget_enabled: boolean
           meta_title: string | null
           meta_description: string | null
           meta_image_url: string | null
@@ -89,15 +99,20 @@ export interface Database {
           secondary_color?: string
           background_color?: string
           text_color?: string
+          name_color?: string
           background_type?: string
           background_image_url?: string | null
           background_video_url?: string | null
           background_blur?: number
           background_opacity?: number
-          layout_type?: string
+          layout_style?: string
+          card_style?: string
+          card_radius?: number
           avatar_style?: string
           avatar_border?: boolean
           avatar_glow?: boolean
+          name_font?: string | null
+          text_font?: string | null
           cursor_effect?: string
           custom_cursor_url?: string | null
           page_effect?: string
@@ -108,6 +123,11 @@ export interface Database {
           typewriter_enabled?: boolean
           typewriter_speed?: number
           typewriter_phrases?: string[] | null
+          click_to_enter?: boolean
+          sparkle_name?: boolean
+          parallax_enabled?: boolean
+          discord_user_id?: string | null
+          discord_widget_enabled?: boolean
           meta_title?: string | null
           meta_description?: string | null
           meta_image_url?: string | null
@@ -126,15 +146,20 @@ export interface Database {
           secondary_color?: string
           background_color?: string
           text_color?: string
+          name_color?: string
           background_type?: string
           background_image_url?: string | null
           background_video_url?: string | null
           background_blur?: number
           background_opacity?: number
-          layout_type?: string
+          layout_style?: string
+          card_style?: string
+          card_radius?: number
           avatar_style?: string
           avatar_border?: boolean
           avatar_glow?: boolean
+          name_font?: string | null
+          text_font?: string | null
           cursor_effect?: string
           custom_cursor_url?: string | null
           page_effect?: string
@@ -145,6 +170,11 @@ export interface Database {
           typewriter_enabled?: boolean
           typewriter_speed?: number
           typewriter_phrases?: string[] | null
+          click_to_enter?: boolean
+          sparkle_name?: boolean
+          parallax_enabled?: boolean
+          discord_user_id?: string | null
+          discord_widget_enabled?: boolean
           meta_title?: string | null
           meta_description?: string | null
           meta_image_url?: string | null
